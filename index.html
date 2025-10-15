@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Welcome!</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #689fff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+            text-align: center;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        a {
+            color: #689fff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+
+  <header>
+    <h1>드다다알</h1>
+    <p>
+        made by hopo1349<br>With, Github Pages and ChatGPT
+    </p>
+  </header>
+
+  <main>
+    <h2>환영합니다!</h2>
+    <p>
+      이 페이지는 실험용으로 만들어졌기 때문에 언제나 구조가 바뀔 수 있습니다.
+    </p>
+    <img src="와샌즈.gif" alt="와! 샌즈 아시는구나!" width="300">
+
+    <!-- ✅ 여기부터 추가된 부분 -->
+<section style="margin-top: 30px; padding: 20px; background-color: #f9f9f9; border-radius: 10px;">
+  <h3>랜덤 문자열 생성기 (48자리)</h3>
+  <div id="randomString" style="
+    font-family: monospace;
+    word-break: break-all;
+    font-size: 16px;
+    background-color: #eee;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    user-select: all;
+  ">
+    여기에 문자열이 표시됩니다
+  </div>
+  <button onclick="generateRandomString()" style="padding: 10px 20px; background-color: #3498db; color: white; border: none; border-radius: 5px;">문자열 생성</button>
+  <button onclick="copyToClipboard()" style="padding: 10px 20px; background-color: #2ecc71; color: white; border: none; border-radius: 5px;">복사</button>
+</section>
+
+<script>
+  const charset = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  const charsetLength = charset.length;
+  const maxAcceptable = Math.floor(256 / charsetLength) * charsetLength; // 62 → 248
+
+  function getSecureRandomChar() {
+    const byte = new Uint8Array(1);
+    while (true) {
+      window.crypto.getRandomValues(byte);
+      if (byte[0] < maxAcceptable) {
+        return charset[byte[0] % charsetLength];
+      }
+      // rejection sampling: discard and retry if biased
+    }
+  }
+
+  function generateRandomString() {
+    let result = '';
+    for (let i = 0; i < 48; i++) {
+      result += getSecureRandomChar();
+    }
+    document.getElementById('randomString').innerText = result;
+  }
+
+  function copyToClipboard() {
+    const text = document.getElementById('randomString').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      alert("복사되었습니다!");
+    }).catch(err => {
+      alert("복사 실패: " + err);
+    });
+  }
+
+  // 자동 생성
+  window.onload = generateRandomString;
+</script>
+
+    <!-- ✅ 여기까지 추가 -->
+
+  </main>
+
+</body>
